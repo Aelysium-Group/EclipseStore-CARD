@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+group = 'group.aelysium'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "org.eclipse.store:storage-embedded:1.0.0"
+}

@@ -1,6 +1,11 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 group = 'group.aelysium'
 version = '0.0.1'

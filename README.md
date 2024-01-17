@@ -363,7 +363,7 @@ public class Database {
 
 You can then interact with your data just like you would in EclipseStore:
 ```java
-Database database = /* Get database object */
+Database database = /* Get database object */;
 Players players = database.players();
 
 UUID someUUID = UUID.randomUUID();

@@ -345,3 +345,43 @@ Using this system, you can modify as few or as many attributes of the associated
     System.out.println(player.uuid());
     System.out.println(player.username());
 ```
+
+## Persisting With EclipseStore
+Once you've created your data structure.
+All you have to do is add it to your EclipseStore root!
+
+We like to name our root `Database` so that's what you see below:
+```java
+public class Database {
+    private Players players = new Players();
+    
+    public Players players() {
+        return this.players;
+    }
+}
+```
+
+You can then interact with your data just like you would in EclipseStore:
+```java
+Database database = /* Get database object */
+Players players = database.players();
+
+UUID someUUID = UUID.randomUUID();
+
+players.create()
+    .uuid(someUUID)
+    .username("John Doe")
+    .prepare()
+    .createAndStore();
+
+// .fetch() is exclusive to Map-based Card Holders.
+Player player = players.fetch(someUUID).orElseThrow();
+
+player.alter()
+        .username("an updated username!")
+        .commit();
+
+System.out.println(player.username());
+
+player.delete();
+```

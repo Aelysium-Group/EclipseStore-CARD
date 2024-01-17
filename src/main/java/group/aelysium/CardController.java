@@ -20,9 +20,9 @@ public interface CardController {
 
             public abstract ReadyForInsert<C> prepare();
 
-            public static class ReadyForInsert<C extends Card> {
+            public static final class ReadyForInsert<C extends Card> {
                 private final Storeable<C> owner;
-                protected C newCard;
+                private final C newCard;
                 public ReadyForInsert(CardController.Storeable<C> owner, C newCard) {
                     this.owner = owner;
                     this.newCard = newCard;

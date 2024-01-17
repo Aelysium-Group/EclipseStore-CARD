@@ -17,6 +17,8 @@ public abstract class Card implements CardController.Delete {
      * Gets the parent {@link Holder} of the Card.
      */
     public Holder<Card> parent() {
+        catchIllegalCall();
+
         return (Holder<Card>) this.persister;
     }
 
@@ -29,6 +31,8 @@ public abstract class Card implements CardController.Delete {
 
     @Override
     public void delete() {
+        catchIllegalCall();
+
         this.parent().delete(this);
         this.deleted = true;
     }
@@ -90,6 +94,10 @@ public abstract class Card implements CardController.Delete {
                 this.items.remove(card);
                 this.persister.store(this.items);
             }
+
+            public LazyHashSet<C> expose() {
+                return this.items;
+            }
         }
 
         public abstract static class List<C extends Card> extends Holder<C> implements CardController.Read.Entry<C> {
@@ -120,6 +128,10 @@ public abstract class Card implements CardController.Delete {
             public void delete(C card) {
                 this.items.remove(card);
                 this.persister.store(this.items);
+            }
+
+            public LazyArrayList<C> expose() {
+                return this.items;
             }
         }
 
@@ -159,21 +171,25 @@ public abstract class Card implements CardController.Delete {
                 this.items.remove(card.key());
                 this.persister.store(this.items);
             }
+
+            public LazyHashMap<K, CWK> expose() {
+                return this.items;
+            }
         }
     }
 
-    public record Attribute<T>(String name, T attribute) {
+    public record Attribute<T>(String key, T value) {
         @Override
             public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 Attribute<T> attribute = (Attribute<T>) o;
-                return Objects.equals(name, attribute.name);
+                return Objects.equals(key, attribute.key);
             }
 
             @Override
             public int hashCode() {
-                return Objects.hash(name);
+                return Objects.hash(key);
             }
         }
 }
